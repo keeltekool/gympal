@@ -7,6 +7,7 @@ import { RefreshCw } from 'lucide-react'
 import { WorkoutHeader } from '@/components/workout-header'
 import { ExerciseCard } from '@/components/exercise-card'
 import { WorkoutCompleteModal } from '@/components/workout-complete-modal'
+import { ExerciseDetail } from '@/components/exercise-detail'
 import type { GeneratedExercise } from '@/lib/workout-generator'
 
 interface WorkoutData {
@@ -25,6 +26,7 @@ export default function WorkoutPage() {
   const [workout, setWorkout] = useState<WorkoutData | null>(null)
   const [exercises, setExercises] = useState<ExerciseState[]>([])
   const [showComplete, setShowComplete] = useState(false)
+  const [detailExercise, setDetailExercise] = useState<ExerciseState | null>(null)
   const [elapsed, setElapsed] = useState(0)
   const startTimeRef = useRef<number>(Date.now())
 
@@ -190,9 +192,7 @@ export default function WorkoutPage() {
               completed={ex.completed}
               onToggle={() => toggleExercise(i)}
               onSwap={() => swapExercise(i)}
-              onTapName={() => {
-                // Will navigate to exercise detail in Task 9
-              }}
+              onTapName={() => setDetailExercise(ex)}
             />
           ))}
         </AnimatePresence>
@@ -207,6 +207,16 @@ export default function WorkoutPage() {
           End Workout
         </button>
       </div>
+
+      {/* Exercise detail overlay */}
+      <AnimatePresence>
+        {detailExercise && (
+          <ExerciseDetail
+            exercise={detailExercise}
+            onClose={() => setDetailExercise(null)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Completion modal */}
       <WorkoutCompleteModal
