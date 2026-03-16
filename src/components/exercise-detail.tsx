@@ -59,16 +59,16 @@ export function ExerciseDetail({ exercise, onClose }: ExerciseDetailProps) {
       <div className="selectable px-5 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
         {tab === 'howto' ? (
           <>
-            {/* Demo images side by side */}
-            <div className="mb-6 flex gap-3">
+            {/* Demo images — stacked vertically for maximum visibility */}
+            <div className="mb-6 space-y-4">
               {exercise.localImages.map((img, i) => (
-                <div key={i} className="flex-1">
+                <div key={i}>
                   <div className="overflow-hidden rounded-lg bg-card-elevated">
                     <Image
                       src={img}
                       alt={`${exercise.name} - ${i === 0 ? 'start' : 'end'} position`}
-                      width={300}
-                      height={300}
+                      width={600}
+                      height={600}
                       className="h-auto w-full object-cover"
                     />
                   </div>
