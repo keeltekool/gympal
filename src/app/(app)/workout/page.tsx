@@ -38,6 +38,32 @@ export default function WorkoutPage() {
     return () => clearInterval(interval)
   }, [])
 
+  // Wake Lock — keep screen on during workout (iOS 16.4+ and all modern Android)
+  useEffect(() => {
+    let wakeLock: WakeLockSentinel | null = null
+
+    async function requestWakeLock() {
+      try {
+        if ('wakeLock' in navigator) {
+          wakeLock = await navigator.wakeLock.request('screen')
+        }
+      } catch {}
+    }
+
+    requestWakeLock()
+
+    // Re-acquire wake lock when tab becomes visible again (iOS releases it on tab switch)
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') requestWakeLock()
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+
+    return () => {
+      wakeLock?.release().catch(() => {})
+      document.removeEventListener('visibilitychange', handleVisibility)
+    }
+  }, [])
+
   const elapsedStr = `${String(Math.floor(elapsed / 60)).padStart(2, '0')}:${String(elapsed % 60).padStart(2, '0')}`
 
   // Load workout from sessionStorage
@@ -163,7 +189,7 @@ export default function WorkoutPage() {
   if (!workout) return null
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-28">
       <WorkoutHeader
         duration={workout.duration}
         completedCount={completedCount}

@@ -22,7 +22,7 @@ export function ExerciseDetail({ exercise, onClose }: ExerciseDetailProps) {
       animate={{ x: 0 }}
       exit={{ x: '100%' }}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
-      className="fixed inset-0 z-50 overflow-y-auto bg-background"
+      className="fixed inset-0 z-50 overflow-y-auto overscroll-none bg-background"
     >
       {/* Header */}
       <div className="sticky top-0 z-10 px-5 pb-3 pt-[calc(env(safe-area-inset-top)+12px)]"
@@ -56,7 +56,7 @@ export function ExerciseDetail({ exercise, onClose }: ExerciseDetailProps) {
       </div>
 
       {/* Content */}
-      <div className="px-5 py-4">
+      <div className="selectable px-5 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
         {tab === 'howto' ? (
           <>
             {/* Demo images side by side */}

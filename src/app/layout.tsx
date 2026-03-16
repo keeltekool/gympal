@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   themeColor: "#0a0a12",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
     title: "GymPal",
   },
   viewport: {

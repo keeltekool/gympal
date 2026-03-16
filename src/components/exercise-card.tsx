@@ -60,34 +60,38 @@ export function ExerciseCard({
             : 'border-border bg-card'
       }`}
     >
-      {/* Checkbox */}
+      {/* Checkbox — 44px tap target, 28px visual box */}
       <button
         onClick={onToggle}
-        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border-2 transition-colors active:opacity-70"
-        style={{
-          borderColor: completed ? '#c8ff00' : '#222230',
-          backgroundColor: completed ? '#c8ff00' : 'transparent',
-        }}
+        className="flex h-11 w-11 shrink-0 items-center justify-center -m-2 active:opacity-70"
       >
-        {completed && (
-          <motion.svg
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.2, type: 'spring' }}
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-            fill="none"
-          >
-            <path
-              d="M3 7L6 10L11 4"
-              stroke="#0a0a12"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </motion.svg>
-        )}
+        <span
+          className="flex h-7 w-7 items-center justify-center rounded-md border-2 transition-colors"
+          style={{
+            borderColor: completed ? '#c8ff00' : '#222230',
+            backgroundColor: completed ? '#c8ff00' : 'transparent',
+          }}
+        >
+          {completed && (
+            <motion.svg
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.2, type: 'spring' }}
+              width="16"
+              height="16"
+              viewBox="0 0 14 14"
+              fill="none"
+            >
+              <path
+                d="M3 7L6 10L11 4"
+                stroke="#0a0a12"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </motion.svg>
+          )}
+        </span>
       </button>
 
       {/* Exercise info */}
