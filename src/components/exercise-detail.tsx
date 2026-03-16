@@ -22,10 +22,10 @@ export function ExerciseDetail({ exercise, onClose }: ExerciseDetailProps) {
       animate={{ x: 0 }}
       exit={{ x: '100%' }}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
-      className="fixed inset-0 z-50 overflow-y-auto overscroll-none bg-background"
+      className="fixed inset-0 z-50 flex flex-col bg-background"
     >
-      {/* Header */}
-      <div className="sticky top-0 z-10 px-5 pb-3 pt-[calc(env(safe-area-inset-top)+12px)]"
+      {/* Header — fixed, not scrollable */}
+      <div className="shrink-0 px-5 pb-3 pt-[calc(env(safe-area-inset-top)+12px)]"
         style={{ background: 'rgba(10, 10, 18, 0.95)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
       >
         <button
@@ -55,8 +55,10 @@ export function ExerciseDetail({ exercise, onClose }: ExerciseDetailProps) {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="selectable px-5 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+      {/* Scrollable content area */}
+      <div className="selectable flex-1 overflow-y-auto px-5 py-4 pb-[calc(2rem+env(safe-area-inset-bottom))]"
+        style={{ WebkitOverflowScrolling: 'touch' }}
+      >
         {tab === 'howto' ? (
           <>
             {/* Demo images — stacked vertically for maximum visibility */}
