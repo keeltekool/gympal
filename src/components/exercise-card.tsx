@@ -11,6 +11,7 @@ interface ExerciseCardProps {
   equipment: string
   localImages: [string, string]
   completed: boolean
+  isNext?: boolean
   onToggle: () => void
   onSwap: () => void
   onTapName: () => void
@@ -23,6 +24,7 @@ export function ExerciseCard({
   equipment,
   localImages,
   completed,
+  isNext,
   onToggle,
   onSwap,
   onTapName,
@@ -33,8 +35,12 @@ export function ExerciseCard({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, x: -100 }}
-      className={`flex items-center gap-3 rounded-lg border border-gray-200 p-4 transition-opacity ${
-        completed ? 'opacity-50' : ''
+      className={`flex items-center gap-3 rounded-lg border p-4 transition-all ${
+        completed
+          ? 'border-border/50 bg-card/50 opacity-60'
+          : isNext
+            ? 'border-accent/30 bg-accent-dim'
+            : 'border-border bg-card'
       }`}
     >
       {/* Checkbox */}
@@ -42,8 +48,8 @@ export function ExerciseCard({
         onClick={onToggle}
         className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border-2 transition-colors active:opacity-70"
         style={{
-          borderColor: completed ? '#16a34a' : '#d1d5db',
-          backgroundColor: completed ? '#16a34a' : 'transparent',
+          borderColor: completed ? '#c8ff00' : '#222230',
+          backgroundColor: completed ? '#c8ff00' : 'transparent',
         }}
       >
         {completed && (
@@ -58,8 +64,8 @@ export function ExerciseCard({
           >
             <path
               d="M3 7L6 10L11 4"
-              stroke="white"
-              strokeWidth="2"
+              stroke="#0a0a12"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
@@ -70,11 +76,13 @@ export function ExerciseCard({
       {/* Exercise info */}
       <div className="flex-1 min-w-0">
         <button onClick={onTapName} className="text-left active:opacity-70">
-          <p className="text-lg font-semibold leading-tight">{name}</p>
+          <p className={`text-lg font-semibold leading-tight ${completed ? 'line-through text-text-tertiary' : 'text-foreground'}`}>
+            {name}
+          </p>
         </button>
-        <p className="mt-0.5 text-sm text-gray-500">
+        <p className="mt-0.5 text-sm text-text-secondary">
           <span className="font-mono">{sets} × {reps}</span>
-          <span className="mx-1.5">·</span>
+          <span className="mx-1.5 text-text-tertiary">·</span>
           <span className="capitalize">{equipment}</span>
         </p>
       </div>
@@ -83,12 +91,12 @@ export function ExerciseCard({
       <div className="flex shrink-0 flex-col items-end gap-1">
         <button
           onClick={onSwap}
-          className="p-1 text-blue-600 active:opacity-70"
+          className="p-1 text-accent active:opacity-70"
           aria-label="Swap exercise"
         >
           <Dices size={20} />
         </button>
-        <div className="h-12 w-12 overflow-hidden rounded-lg bg-gray-100">
+        <div className="h-12 w-12 overflow-hidden rounded-lg bg-card-elevated">
           <Image
             src={localImages[0]}
             alt={name}

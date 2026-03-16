@@ -43,3 +43,5 @@ hevy-*.png
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "GymPal",
   description: "Fat-loss strength training workouts",
   manifest: "/manifest.json",
-  themeColor: "#2563EB",
+  themeColor: "#0a0a12",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

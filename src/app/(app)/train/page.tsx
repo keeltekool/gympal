@@ -60,8 +60,8 @@ export default function TrainPage() {
 
   return (
     <div className="flex min-h-[calc(100vh-56px)] flex-col items-center justify-center px-5">
-      <h1 className="mb-2 text-[28px] font-bold">GymPal</h1>
-      <p className="mb-10 text-base text-gray-500">How much time today?</p>
+      <h1 className="mb-2 text-[28px] font-bold text-foreground">GymPal</h1>
+      <p className="mb-10 text-base text-text-secondary">How much time today?</p>
 
       {/* Duration pills */}
       <div className="mb-8 flex gap-3">
@@ -71,8 +71,8 @@ export default function TrainPage() {
             onClick={() => setSelectedDuration(d)}
             className={`h-[44px] rounded-lg px-6 text-base font-semibold transition-colors active:opacity-70 ${
               selectedDuration === d
-                ? 'bg-blue-600 text-white'
-                : 'border border-gray-200 bg-white text-gray-500'
+                ? 'bg-accent text-background'
+                : 'border border-border bg-card text-text-secondary'
             }`}
           >
             {d}m
@@ -84,7 +84,7 @@ export default function TrainPage() {
       <button
         onClick={handleStartWorkout}
         disabled={loading}
-        className="flex h-[52px] w-full max-w-xs items-center justify-center gap-2 rounded-lg bg-blue-600 text-base font-semibold text-white transition-opacity active:opacity-70 disabled:opacity-50"
+        className="flex h-[52px] w-full max-w-xs items-center justify-center gap-2 rounded-lg bg-accent text-base font-semibold text-background transition-opacity active:opacity-70 disabled:opacity-50"
       >
         {loading ? 'Generating...' : 'Start Workout'}
         {!loading && <ArrowRight size={20} />}

@@ -24,21 +24,23 @@ export function WorkoutHeader({ duration, completedCount, totalCount }: WorkoutH
   const progress = totalCount > 0 ? (completedCount / totalCount) * 100 : 0
 
   return (
-    <div className="sticky top-0 z-40 bg-white px-5 pb-3 pt-[env(safe-area-inset-top)]">
+    <div className="sticky top-0 z-40 px-5 pb-3 pt-[env(safe-area-inset-top)]"
+      style={{ background: 'rgba(10, 10, 18, 0.9)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+    >
       <div className="flex items-center justify-between pt-3">
-        <h1 className="text-lg font-bold">Full Body · {duration} min</h1>
-        <span className="font-mono text-lg font-medium text-gray-600">{timeStr}</span>
+        <h1 className="text-lg font-bold text-foreground">Full Body · {duration} min</h1>
+        <span className="font-mono text-lg font-medium text-accent">{timeStr}</span>
       </div>
 
       {/* Progress bar */}
-      <div className="mt-2 h-1 overflow-hidden rounded-full bg-gray-100">
+      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-card-elevated">
         <div
-          className="h-full rounded-full bg-blue-600 transition-all duration-300"
+          className="h-full rounded-full bg-accent transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>
 
-      <p className="mt-1.5 text-sm font-medium text-gray-500">
+      <p className="mt-1.5 text-sm font-medium text-text-secondary">
         {completedCount} of {totalCount} done
       </p>
     </div>

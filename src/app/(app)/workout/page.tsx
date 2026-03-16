@@ -54,6 +54,9 @@ export default function WorkoutPage() {
 
   const completedCount = exercises.filter(e => e.completed).length
 
+  // Find first non-completed exercise index
+  const nextIndex = exercises.findIndex(e => !e.completed)
+
   // Toggle exercise completion
   const toggleExercise = useCallback(async (index: number) => {
     setExercises(prev => {
@@ -160,7 +163,7 @@ export default function WorkoutPage() {
   if (!workout) return null
 
   return (
-    <div className="min-h-screen bg-white pb-24">
+    <div className="min-h-screen bg-background pb-24">
       <WorkoutHeader
         duration={workout.duration}
         completedCount={completedCount}
@@ -171,7 +174,7 @@ export default function WorkoutPage() {
       <div className="flex justify-end px-5 py-2">
         <button
           onClick={shuffleWorkout}
-          className="flex items-center gap-1.5 text-sm font-medium text-blue-600 active:opacity-70"
+          className="flex items-center gap-1.5 text-sm font-medium text-accent active:opacity-70"
         >
           <RefreshCw size={16} />
           Shuffle
@@ -190,6 +193,7 @@ export default function WorkoutPage() {
               equipment={ex.equipment}
               localImages={ex.localImages}
               completed={ex.completed}
+              isNext={i === nextIndex}
               onToggle={() => toggleExercise(i)}
               onSwap={() => swapExercise(i)}
               onTapName={() => setDetailExercise(ex)}
@@ -199,10 +203,12 @@ export default function WorkoutPage() {
       </div>
 
       {/* End Workout button */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+      <div className="fixed bottom-0 left-0 right-0 z-40 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]"
+        style={{ background: 'rgba(10, 10, 18, 0.9)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+      >
         <button
           onClick={() => setShowComplete(true)}
-          className="h-[44px] w-full rounded-lg border border-red-500 text-base font-semibold text-red-500 transition-opacity active:opacity-70"
+          className="h-[44px] w-full rounded-lg border border-danger text-base font-semibold text-danger transition-opacity active:opacity-70"
         >
           End Workout
         </button>
