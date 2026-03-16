@@ -18,6 +18,19 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "GymPal",
   description: "Fat-loss strength training workouts",
+  manifest: "/manifest.json",
+  themeColor: "#2563EB",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "GymPal",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
 };
 
 export default function RootLayout({
