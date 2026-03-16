@@ -1,0 +1,41 @@
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Zap, CalendarDays, Bookmark, Settings } from 'lucide-react'
+
+const tabs = [
+  { href: '/train', label: 'Train', icon: Zap },
+  { href: '/calendar', label: 'Calendar', icon: CalendarDays },
+  { href: '/vault', label: 'Vault', icon: Bookmark },
+  { href: '/settings', label: 'Settings', icon: Settings },
+]
+
+export function BottomNav() {
+  const pathname = usePathname()
+
+  // Hide nav during active workout
+  if (pathname.startsWith('/workout')) return null
+
+  return (
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white pb-[env(safe-area-inset-bottom)]">
+      <div className="flex h-14 items-center justify-around">
+        {tabs.map(({ href, label, icon: Icon }) => {
+          const active = pathname.startsWith(href)
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`flex flex-col items-center gap-0.5 px-3 py-1 transition-opacity active:opacity-70 ${
+                active ? 'text-blue-600' : 'text-gray-400'
+              }`}
+            >
+              <Icon size={22} strokeWidth={active ? 2.5 : 2} />
+              <span className="text-[11px] font-medium">{label}</span>
+            </Link>
+          )
+        })}
+      </div>
+    </nav>
+  )
+}
