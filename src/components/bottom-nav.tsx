@@ -2,10 +2,11 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Zap, CalendarDays, Bookmark, Settings } from 'lucide-react'
+import { Zap, CalendarDays, Dumbbell, Bookmark, Settings } from 'lucide-react'
 
 const tabs = [
   { href: '/train', label: 'Train', icon: Zap },
+  { href: '/exercises', label: 'Exercises', icon: Dumbbell },
   { href: '/calendar', label: 'Calendar', icon: CalendarDays },
   { href: '/vault', label: 'Vault', icon: Bookmark },
   { href: '/settings', label: 'Settings', icon: Settings },
