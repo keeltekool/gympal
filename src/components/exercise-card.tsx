@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Dices } from 'lucide-react'
 import Image from 'next/image'
@@ -31,6 +31,15 @@ export function ExerciseCard({
   onTapName,
 }: ExerciseCardProps) {
   const [swapRotation, setSwapRotation] = useState(0)
+  const [imgIndex, setImgIndex] = useState(0)
+
+  useEffect(() => {
+    if (completed) return
+    const interval = setInterval(() => {
+      setImgIndex(prev => prev === 0 ? 1 : 0)
+    }, 1800)
+    return () => clearInterval(interval)
+  }, [completed])
 
   function handleSwap() {
     setSwapRotation(prev => prev + 360)
@@ -110,13 +119,20 @@ export function ExerciseCard({
             <Dices size={18} />
           </motion.span>
         </button>
-        <div className="h-16 w-16 overflow-hidden rounded-lg bg-card-elevated">
+        <div className="relative h-16 w-16 overflow-hidden rounded-lg bg-card-elevated">
           <Image
             src={localImages[0]}
-            alt={name}
+            alt={`${name} - start`}
             width={64}
             height={64}
-            className="h-full w-full object-cover"
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${imgIndex === 0 ? 'opacity-100' : 'opacity-0'}`}
+          />
+          <Image
+            src={localImages[1]}
+            alt={`${name} - end`}
+            width={64}
+            height={64}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${imgIndex === 1 ? 'opacity-100' : 'opacity-0'}`}
           />
         </div>
       </div>
