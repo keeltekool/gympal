@@ -29,7 +29,10 @@ export function WorkoutHeader({ duration, completedCount, totalCount }: WorkoutH
     >
       <div className="flex items-center justify-between pt-3">
         <h1 className="text-lg font-bold text-foreground">Full Body · {duration} min</h1>
-        <span className="font-mono text-lg font-medium text-accent">{timeStr}</span>
+        <div className="flex items-center gap-2">
+          <span className="inline-block h-2 w-2 rounded-full bg-accent animate-[pulse_2s_ease-in-out_infinite]" />
+          <span className="font-mono text-lg font-medium text-accent">{timeStr}</span>
+        </div>
       </div>
 
       {/* Progress bar */}

@@ -62,14 +62,19 @@ export function ExerciseDetail({ exercise, onClose }: ExerciseDetailProps) {
             {/* Demo images side by side */}
             <div className="mb-6 flex gap-3">
               {exercise.localImages.map((img, i) => (
-                <div key={i} className="flex-1 overflow-hidden rounded-lg bg-card-elevated">
-                  <Image
-                    src={img}
-                    alt={`${exercise.name} - ${i === 0 ? 'start' : 'end'} position`}
-                    width={300}
-                    height={300}
-                    className="h-auto w-full object-cover"
-                  />
+                <div key={i} className="flex-1">
+                  <div className="overflow-hidden rounded-lg bg-card-elevated">
+                    <Image
+                      src={img}
+                      alt={`${exercise.name} - ${i === 0 ? 'start' : 'end'} position`}
+                      width={300}
+                      height={300}
+                      className="h-auto w-full object-cover"
+                    />
+                  </div>
+                  <p className="mt-1.5 text-center font-mono text-[10px] font-medium uppercase tracking-wider text-text-tertiary">
+                    {i === 0 ? 'Start Position' : 'End Position'}
+                  </p>
                 </div>
               ))}
             </div>

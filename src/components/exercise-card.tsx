@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Dices } from 'lucide-react'
 import Image from 'next/image'
@@ -29,6 +30,13 @@ export function ExerciseCard({
   onSwap,
   onTapName,
 }: ExerciseCardProps) {
+  const [swapRotation, setSwapRotation] = useState(0)
+
+  function handleSwap() {
+    setSwapRotation(prev => prev + 360)
+    onSwap()
+  }
+
   return (
     <motion.div
       layout
@@ -90,11 +98,17 @@ export function ExerciseCard({
       {/* Right side: swap + thumbnail */}
       <div className="flex shrink-0 flex-col items-end gap-1">
         <button
-          onClick={onSwap}
+          onClick={handleSwap}
           className="p-1 text-accent active:opacity-70"
           aria-label="Swap exercise"
         >
-          <Dices size={20} />
+          <motion.span
+            className="inline-block"
+            animate={{ rotate: swapRotation }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          >
+            <Dices size={20} />
+          </motion.span>
         </button>
         <div className="h-12 w-12 overflow-hidden rounded-lg bg-card-elevated">
           <Image
