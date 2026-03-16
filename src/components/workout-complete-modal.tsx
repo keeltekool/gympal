@@ -7,7 +7,6 @@ interface WorkoutCompleteModalProps {
   elapsed: string
   completedCount: number
   totalCount: number
-  onSaveToVault: () => void
   onDone: () => void
 }
 
@@ -16,7 +15,6 @@ export function WorkoutCompleteModal({
   elapsed,
   completedCount,
   totalCount,
-  onSaveToVault,
   onDone,
 }: WorkoutCompleteModalProps) {
   return (
@@ -46,20 +44,12 @@ export function WorkoutCompleteModal({
               </p>
             </div>
 
-            <div className="mt-6 space-y-3">
-              <button
-                onClick={onSaveToVault}
-                className="h-[44px] w-full rounded-lg border border-accent text-base font-semibold text-accent transition-opacity active:opacity-70"
-              >
-                Save to Vault
-              </button>
-              <button
-                onClick={onDone}
-                className="h-[44px] w-full rounded-lg bg-accent text-base font-semibold text-background transition-opacity active:opacity-70"
-              >
-                Done
-              </button>
-            </div>
+            <button
+              onClick={onDone}
+              className="mt-6 h-[44px] w-full rounded-lg bg-accent text-base font-semibold text-background transition-opacity active:opacity-70"
+            >
+              Done
+            </button>
           </motion.div>
         </motion.div>
       )}

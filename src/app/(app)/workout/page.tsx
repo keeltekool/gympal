@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { AnimatePresence } from 'framer-motion'
-import { RefreshCw } from 'lucide-react'
+import { RefreshCw, Bookmark, Check } from 'lucide-react'
 import { WorkoutHeader } from '@/components/workout-header'
 import { ExerciseCard } from '@/components/exercise-card'
 import { WorkoutCompleteModal } from '@/components/workout-complete-modal'
@@ -152,11 +152,30 @@ export default function WorkoutPage() {
     } catch {}
   }, [workout])
 
-  // End workout (complete or early)
-  const endWorkout = useCallback(async (saveToVault: boolean) => {
+  const [savedToVault, setSavedToVault] = useState(false)
+
+  // Save current exercise set to vault (independent from ending workout)
+  const saveToVault = useCallback(async () => {
+    if (!workout || savedToVault) return
+    const name = `Full Body · ${workout.duration} min`
+    await fetch('/api/vault', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        duration: workout.duration,
+        exercises: exercises.map(({ name, movementPattern, tier, sets, reps, equipment, localImages }) => ({
+          name, movementPattern, tier, sets, reps, equipment, localImages,
+        })),
+      }),
+    }).catch(() => {})
+    setSavedToVault(true)
+  }, [workout, exercises, savedToVault])
+
+  // End workout — always records session to DB
+  const endWorkout = useCallback(async () => {
     if (!workout) return
 
-    // Update session in DB
     await fetch('/api/workout/session', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -167,24 +186,9 @@ export default function WorkoutPage() {
       }),
     }).catch(() => {})
 
-    if (saveToVault) {
-      const name = `Full Body · ${workout.duration} min`
-      await fetch('/api/vault', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          duration: workout.duration,
-          exercises: exercises.map(({ name, movementPattern, tier, sets, reps, equipment, localImages }) => ({
-            name, movementPattern, tier, sets, reps, equipment, localImages,
-          })),
-        }),
-      }).catch(() => {})
-    }
-
     sessionStorage.removeItem('activeWorkout')
     router.replace('/train')
-  }, [workout, elapsed, completedCount, exercises, router])
+  }, [workout, elapsed, completedCount, router])
 
   if (!workout) return null
 
@@ -196,8 +200,18 @@ export default function WorkoutPage() {
         totalCount={exercises.length}
       />
 
-      {/* Shuffle button */}
-      <div className="flex justify-end px-5 py-2">
+      {/* Toolbar: Save to Vault + Shuffle */}
+      <div className="flex items-center justify-between px-5 py-2">
+        <button
+          onClick={saveToVault}
+          disabled={savedToVault}
+          className={`flex items-center gap-1.5 text-sm font-medium active:opacity-70 ${
+            savedToVault ? 'text-teal' : 'text-text-secondary'
+          }`}
+        >
+          {savedToVault ? <Check size={16} /> : <Bookmark size={16} />}
+          {savedToVault ? 'Saved!' : 'Save to Vault'}
+        </button>
         <button
           onClick={shuffleWorkout}
           className="flex items-center gap-1.5 text-sm font-medium text-accent active:opacity-70"
@@ -256,8 +270,7 @@ export default function WorkoutPage() {
         elapsed={elapsedStr}
         completedCount={completedCount}
         totalCount={exercises.length}
-        onSaveToVault={() => endWorkout(true)}
-        onDone={() => endWorkout(false)}
+        onDone={endWorkout}
       />
     </div>
   )
