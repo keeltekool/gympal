@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { db } from '@/db'
 import { workoutSessions } from '@/db/schema'
-import { eq, and, gte, desc } from 'drizzle-orm'
+import { eq, and, gte, desc, or, isNull } from 'drizzle-orm'
 
 // GET — weekly stats, last session, streak for Train page
 export async function GET() {
@@ -13,13 +13,15 @@ export async function GET() {
   const eightWeeksAgo = new Date()
   eightWeeksAgo.setDate(eightWeeksAgo.getDate() - 56)
 
+  // Only count sessions >= 15 min — filter out test/cancelled junk
   const sessions = await db
     .select()
     .from(workoutSessions)
     .where(
       and(
         eq(workoutSessions.clerkUserId, userId),
-        gte(workoutSessions.startedAt, eightWeeksAgo)
+        gte(workoutSessions.startedAt, eightWeeksAgo),
+        gte(workoutSessions.actualDuration, 900)
       )
     )
     .orderBy(desc(workoutSessions.startedAt))

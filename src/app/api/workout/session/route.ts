@@ -35,11 +35,21 @@ export async function POST(req: NextRequest) {
 }
 
 // PUT — update session (complete or end early)
+// Sessions under 15 minutes are auto-deleted (test/cancelled sessions)
+const MIN_SESSION_SECONDS = 900 // 15 minutes
+
 export async function PUT(req: NextRequest) {
   const { userId } = await auth()
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { sessionId, actualDuration, completedCount } = await req.json()
+
+  if (actualDuration < MIN_SESSION_SECONDS) {
+    // Delete junk session — exercises cascade-delete via FK
+    await db.delete(workoutSessions)
+      .where(eq(workoutSessions.id, sessionId))
+    return NextResponse.json({ ok: true, deleted: true })
+  }
 
   await db.update(workoutSessions)
     .set({
