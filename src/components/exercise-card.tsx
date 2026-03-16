@@ -95,11 +95,11 @@ export function ExerciseCard({
         </p>
       </div>
 
-      {/* Right side: swap + thumbnail */}
-      <div className="flex shrink-0 flex-col items-end gap-1">
+      {/* Right side: swap icon + thumbnail side by side */}
+      <div className="flex shrink-0 items-center gap-2">
         <button
           onClick={handleSwap}
-          className="p-1 text-accent active:opacity-70"
+          className="p-1.5 text-accent active:opacity-70"
           aria-label="Swap exercise"
         >
           <motion.span
@@ -107,15 +107,15 @@ export function ExerciseCard({
             animate={{ rotate: swapRotation }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <Dices size={20} />
+            <Dices size={18} />
           </motion.span>
         </button>
-        <div className="h-12 w-12 overflow-hidden rounded-lg bg-card-elevated">
+        <div className="h-16 w-16 overflow-hidden rounded-lg bg-card-elevated">
           <Image
             src={localImages[0]}
             alt={name}
-            width={48}
-            height={48}
+            width={64}
+            height={64}
             className="h-full w-full object-cover"
           />
         </div>
